@@ -1,5 +1,7 @@
 pandas
 numpy
 torch
+trimesh
 torch_geometric
+matplotlib
 pytest
