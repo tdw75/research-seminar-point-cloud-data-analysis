@@ -6,6 +6,7 @@ from transformations import (
     flip_cloud,
     translate_cloud_random,
     flip_cloud_random,
+    scale_cloud_random,
 )
 
 
@@ -26,7 +27,6 @@ class TestTranslate:
         assert np.array_equal(cloud_translated, cloud_exp)
 
 
-
 class TestFlip:
 
     cloud = np.array([[2, 2, 0], [2, 4, 0], [4, 2, 0], [8, 8, 0]])
@@ -36,7 +36,10 @@ class TestFlip:
         "axes, cloud_exp",
         [
             ((True, False, False), [[6, 2, 0], [6, 4, 0], [4, 2, 0], [0, 8, 0]]),  # x
-            ((True, True, False), [[6, 6, 0], [6, 4, 0], [4, 6, 0], [0, 0, 0]]),  # x & y
+            (
+                (True, True, False),
+                [[6, 6, 0], [6, 4, 0], [4, 6, 0], [0, 0, 0]],
+            ),  # x & y
         ],
     )
     def test_flip_cloud(self, axes, cloud_exp):
@@ -50,3 +53,10 @@ class TestFlip:
         assert cloud_flipped.shape == self.cloud.shape
 
 
+class TestScale:
+
+    cloud = np.array([[2, 3, 4], [3, 3, 4], [2, 4, 4], [3, 4, 4]])
+
+    def test_scale_cloud_random(self):
+        cloud_scaled = scale_cloud_random(self.cloud)
+        assert cloud_scaled.shape == self.cloud.shape
