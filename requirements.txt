@@ -5,3 +5,4 @@ trimesh
 torch_geometric
 matplotlib
 pytest
+torch_cluster
