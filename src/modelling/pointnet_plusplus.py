@@ -42,15 +42,29 @@ class GlobalSAModule(torch.nn.Module):
 
 
 class PointNetPlusPlus(torch.nn.Module):
-    def __init__(self, num_classes: int = 10):
+    def __init__(self, num_classes: int = 10, **kwargs):
         super().__init__()
+        kwargs = {
+            "sa1_ratio": 0.75,
+            "sa1_radius": 0.75,
+            "sa2_ratio": 0.75,
+            "sa2_radius": 0.75,
+            "dropout": 0.1,
+            **kwargs,
+        }
 
         # Input channels account for both `pos` and node features.
-        self.sa1_module = SAModule(0.5, 0.2, MLP([3, 64, 64, 128]))
-        self.sa2_module = SAModule(0.25, 0.4, MLP([128 + 3, 128, 128, 256]))
+        self.sa1_module = SAModule(
+            kwargs["sa1_ratio"], kwargs["sa1_radius"], MLP([3, 64, 64, 128])
+        )
+        self.sa2_module = SAModule(
+            kwargs["sa2_ratio"], kwargs["sa2_radius"], MLP([128 + 3, 128, 128, 256])
+        )
         self.sa3_module = GlobalSAModule(MLP([256 + 3, 256, 512, 1024]))
 
-        self.mlp = MLP([1024, 512, 256, num_classes], dropout=0.5, norm=None)
+        self.mlp = MLP(
+            [1024, 512, 256, num_classes], dropout=kwargs["dropout"], norm=None
+        )
 
     def forward(self, data):
         sa0_out = (data.x, data.pos, data.batch)
