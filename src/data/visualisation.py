@@ -6,7 +6,7 @@ from torch_geometric.data import Data
 
 
 def plot_cloud(cloud: Union[Data, np.ndarray]):
-    if type(cloud, Data):
+    if isinstance(cloud, Data):
         cloud = cloud.pos.numpy()
     fig = plt.figure(figsize=(5, 5))
     ax = fig.add_subplot(111, projection="3d")
