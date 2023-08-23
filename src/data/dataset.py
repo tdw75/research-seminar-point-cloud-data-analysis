@@ -9,7 +9,7 @@ from torch_geometric.loader import DataLoader
 def init_train_data_loader(
     root: str, num_points: int = 1024, num_classes: int = 10, **kwargs
 ) -> DataLoader:
-    kwargs = {"batch_size": 32, "shuffle": True, "num_workers": 6, **kwargs}
+    kwargs = {"batch_size": 32, "shuffle": True, "num_workers": 2, **kwargs}
     pre_transform, transform = T.NormalizeScale(), T.SamplePoints(num_points)
     train_dataset = ModelNet(root, str(num_classes), True, transform, pre_transform)
     return DataLoader(train_dataset, **kwargs)
