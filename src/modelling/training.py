@@ -37,9 +37,10 @@ def train_model(
     val_loader: DataLoader = None,
     optimiser=None,
     n_epochs: int = 50,
+    device: torch.device = None,
 ):
     optimiser = optimiser or torch.optim.Adam(model.parameters(), lr=0.001)
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     for epoch in range(1, n_epochs + 1):
         train_step(model, train_loader, optimiser, device)
