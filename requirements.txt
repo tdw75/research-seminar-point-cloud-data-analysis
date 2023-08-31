@@ -1,8 +1,10 @@
 pandas
 numpy
-torch
 trimesh
+sklearn
+torch
 torch_geometric
-matplotlib
-pytest
 torch_cluster
+matplotlib
+seaborn
+pytest
