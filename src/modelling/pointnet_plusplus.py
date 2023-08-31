@@ -45,10 +45,10 @@ class PointNetPlusPlus(torch.nn.Module):
     def __init__(self, num_classes: int = 10, **kwargs):
         super().__init__()
         kwargs = {
-            "sa1_ratio": 0.75,
-            "sa1_radius": 0.75,
-            "sa2_ratio": 0.75,
-            "sa2_radius": 0.75,
+            "sa1_ratio": 0.5,
+            "sa1_radius": 0.2,
+            "sa2_ratio": 0.25,
+            "sa2_radius": 0.4,
             "dropout": 0.1,
             **kwargs,
         }
