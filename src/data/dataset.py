@@ -46,18 +46,23 @@ def init_train_data_loader(
 
 def init_test_data_loaders(
     root: str,
-    train_loader: DataLoader,
+    train_loader: DataLoader = None,
+    num_points: int = 1024,
     num_classes: int = 10,
     is_with_affine_transformations: bool = False,
 ) -> Dict[str, DataLoader]:
 
-    pre_transform = train_loader.dataset.pre_transform
-    transform = train_loader.dataset.transform
-    kwargs = {
-        "batch_size": train_loader.batch_size,
-        "shuffle": False,
-        "num_workers": train_loader.num_workers,
-    }
+    if train_loader is not None:
+        pre_transform = train_loader.dataset.pre_transform
+        transform = train_loader.dataset.transform
+        kwargs = {
+            "batch_size": train_loader.batch_size,
+            "shuffle": False,
+            "num_workers": train_loader.num_workers,
+        }
+    else:
+        kwargs = {"batch_size": 32, "shuffle": False, "num_workers": 2}
+        pre_transform, transform = T.NormalizeScale(), T.SamplePoints(num_points)
 
     loaders = {
         "original": init_single(
